@@ -1,0 +1,109 @@
+{
+  "format": "hda-as-code",
+  "version": 1,
+  "name": "Column",
+  "kind": "GEO",
+  "houdini": "20.5",
+  "interface": {
+    "parms": [
+      {
+        "name": "Height",
+        "type": "FLOAT",
+        "default": 2,
+        "min": 0.1,
+        "max": 20
+      },
+      {
+        "name": "Width",
+        "type": "FLOAT",
+        "default": 0.4,
+        "min": 0.05,
+        "max": 5
+      },
+      {
+        "name": "Plinth",
+        "type": "FLOAT",
+        "default": 0.15,
+        "min": 0,
+        "max": 2
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "join",
+      "type": "merge",
+      "location": [
+        3,
+        0
+      ]
+    },
+    {
+      "id": "plinth",
+      "type": "box",
+      "location": [
+        0,
+        0.5
+      ],
+      "parms": {
+        "sizex": {
+          "expr": "ch(\"../Width\") + 0.1"
+        },
+        "sizey": {
+          "ref": "Plinth"
+        },
+        "sizez": {
+          "expr": "ch(\"../Width\") + 0.1"
+        },
+        "ty": {
+          "expr": "ch(\"../Plinth\") / 2"
+        }
+      }
+    },
+    {
+      "id": "shaft",
+      "type": "box",
+      "location": [
+        0,
+        -0.5
+      ],
+      "parms": {
+        "sizex": {
+          "ref": "Width"
+        },
+        "sizey": {
+          "ref": "Height"
+        },
+        "sizez": {
+          "ref": "Width"
+        },
+        "ty": {
+          "expr": "ch(\"../Height\") / 2"
+        }
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": [
+        "plinth",
+        0
+      ],
+      "to": [
+        "join",
+        0
+      ]
+    },
+    {
+      "from": [
+        "shaft",
+        0
+      ],
+      "to": [
+        "join",
+        1
+      ]
+    }
+  ],
+  "display": "join"
+}

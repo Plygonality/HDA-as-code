@@ -1,0 +1,89 @@
+{
+  "format": "hda-as-code",
+  "version": 1,
+  "name": "Terrain",
+  "kind": "GEO",
+  "houdini": "20.5",
+  "interface": {
+    "parms": [
+      {
+        "name": "Height",
+        "type": "FLOAT",
+        "default": 1,
+        "min": 0,
+        "max": 10
+      },
+      {
+        "name": "elementsize",
+        "type": "FLOAT",
+        "default": 2,
+        "min": 0.01,
+        "max": 50,
+        "label": "Element Size"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "grid",
+      "type": "grid",
+      "location": [
+        0,
+        0
+      ],
+      "parms": {
+        "cols": 80,
+        "rows": 80,
+        "sizex": 10,
+        "sizey": 10
+      }
+    },
+    {
+      "id": "mountain",
+      "type": "mountain",
+      "location": [
+        3,
+        0
+      ],
+      "parms": {
+        "elementsize": {
+          "ref": "elementsize"
+        },
+        "height": {
+          "ref": "Height"
+        }
+      }
+    },
+    {
+      "id": "normals",
+      "type": "normal",
+      "location": [
+        6,
+        0
+      ]
+    }
+  ],
+  "links": [
+    {
+      "from": [
+        "grid",
+        0
+      ],
+      "to": [
+        "mountain",
+        0
+      ]
+    },
+    {
+      "from": [
+        "mountain",
+        0
+      ],
+      "to": [
+        "normals",
+        0
+      ]
+    }
+  ],
+  "display": "normals"
+}
